@@ -382,6 +382,12 @@ class Site extends CI_Controller
         $elements[3]->header="Status";
         $elements[3]->alias="status";
         
+        $elements[4]=new stdClass();
+        $elements[4]->field="`movie_movie`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Moviename";
+        $elements[4]->alias="moviename";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -397,7 +403,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userlike`","WHERE `movie_userlike`.`user`='$userid'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userlike` LEFT OUTER JOIN `movie_movie` ON `movie_movie`.`id`=`movie_userlike`.`movie`","WHERE `movie_userlike`.`user`='$userid'");
         $this->load->view("json",$data);
     }
 
@@ -540,6 +546,12 @@ class Site extends CI_Controller
         $elements[3]->sort="1";
         $elements[3]->header="Rating";
         $elements[3]->alias="rating";
+         
+        $elements[4]=new stdClass();
+        $elements[4]->field="`movie_movie`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Moviename";
+        $elements[4]->alias="moviename";
         
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
@@ -556,7 +568,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userrate`","WHERE `movie_userrate`.`user`='$userid'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userrate` LEFT OUTER JOIN `movie_movie` ON `movie_movie`.`id`=`movie_userrate`.`movie`","WHERE `movie_userrate`.`user`='$userid'");
         $this->load->view("json",$data);
     }
 
@@ -697,6 +709,12 @@ class Site extends CI_Controller
         $elements[3]->header="Comment";
         $elements[3]->alias="comment";
         
+        $elements[4]=new stdClass();
+        $elements[4]->field="`movie_movie`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Moviename";
+        $elements[4]->alias="moviename";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -712,7 +730,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_usercomment`","WHERE `movie_usercomment`.`user`='$userid'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_usercomment` LEFT OUTER JOIN `movie_movie` ON `movie_movie`.`id`=`movie_usercomment`.`movie`","WHERE `movie_usercomment`.`user`='$userid'");
         $this->load->view("json",$data);
     }
 
@@ -854,6 +872,18 @@ class Site extends CI_Controller
         $elements[3]->header="Recommendfriend";
         $elements[3]->alias="recommendfriend";
         
+        $elements[4]=new stdClass();
+        $elements[4]->field="`movie_movie`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Moviename";
+        $elements[4]->alias="moviename";
+        
+        $elements[5]=new stdClass();
+        $elements[5]->field="`user`.`name`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Username";
+        $elements[5]->alias="username";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -869,7 +899,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userrecommend`","WHERE `movie_userrecommend`.`user`='$userid'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_userrecommend` LEFT OUTER JOIN `movie_movie` ON `movie_movie`.`id`=`movie_userrecommend`.`movie` LEFT OUTER JOIN `user` ON `user`.`id`=`movie_userrecommend`.`recommendfriend`","WHERE `movie_userrecommend`.`user`='$userid'");
         $this->load->view("json",$data);
     }
 
@@ -969,117 +999,121 @@ class Site extends CI_Controller
     }
     public function viewgenre()
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $data["page"]="viewgenre";
-    $data["base_url"]=site_url("site/viewgenrejson");
-    $data["title"]="View genre";
-    $this->load->view("template",$data);
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="viewgenre";
+        $data["base_url"]=site_url("site/viewgenrejson");
+        $data["title"]="View genre";
+        $this->load->view("template",$data);
     }
     function viewgenrejson()
     {
-    $elements=array();
-    $elements[0]=new stdClass();
-    $elements[0]->field="`movie_genre`.`id`";
-    $elements[0]->sort="1";
-    $elements[0]->header="ID";
-    $elements[0]->alias="id";
-    $elements[1]=new stdClass();
-    $elements[1]->field="`movie_genre`.`name`";
-    $elements[1]->sort="1";
-    $elements[1]->header="Name";
-    $elements[1]->alias="name";
-    $search=$this->input->get_post("search");
-    $pageno=$this->input->get_post("pageno");
-    $orderby=$this->input->get_post("orderby");
-    $orderorder=$this->input->get_post("orderorder");
-    $maxrow=$this->input->get_post("maxrow");
-    if($maxrow=="")
-    {
-    $maxrow=20;
-    }
-    if($orderby=="")
-    {
-    $orderby="id";
-    $orderorder="ASC";
-    }
-    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_genre`");
-    $this->load->view("json",$data);
+        $elements=array();
+        
+        $elements[0]=new stdClass();
+        $elements[0]->field="`movie_genre`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+        
+        $elements[1]=new stdClass();
+        $elements[1]->field="`movie_genre`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+        
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+        
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_genre`");
+        $this->load->view("json",$data);
     }
 
     public function creategenre()
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $data["page"]="creategenre";
-    $data["title"]="Create genre";
-    $this->load->view("template",$data);
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="creategenre";
+        $data["title"]="Create genre";
+        $this->load->view("template",$data);
     }
     public function creategenresubmit() 
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $this->form_validation->set_rules("name","Name","trim");
-    if($this->form_validation->run()==FALSE)
-    {
-    $data["alerterror"]=validation_errors();
-    $data["page"]="creategenre";
-    $data["title"]="Create genre";
-    $this->load->view("template",$data);
-    }
-    else
-    {
-    $name=$this->input->get_post("name");
-    if($this->genre_model->create($name)==0)
-    $data["alerterror"]="New genre could not be created.";
-    else
-    $data["alertsuccess"]="genre created Successfully.";
-    $data["redirect"]="site/viewgenre";
-    $this->load->view("redirect",$data);
-    }
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("name","Name","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="creategenre";
+            $data["title"]="Create genre";
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $name=$this->input->get_post("name");
+            if($this->genre_model->create($name)==0)
+                $data["alerterror"]="New genre could not be created.";
+            else
+                $data["alertsuccess"]="genre created Successfully.";
+            $data["redirect"]="site/viewgenre";
+            $this->load->view("redirect",$data);
+        }
     }
     public function editgenre()
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $data["page"]="editgenre";
-    $data["title"]="Edit genre";
-    $data["before"]=$this->genre_model->beforeedit($this->input->get("id"));
-    $this->load->view("template",$data);
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="editgenre";
+        $data["title"]="Edit genre";
+        $data["before"]=$this->genre_model->beforeedit($this->input->get("id"));
+        $this->load->view("template",$data);
     }
     public function editgenresubmit()
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $this->form_validation->set_rules("id","ID","trim");
-    $this->form_validation->set_rules("name","Name","trim");
-    if($this->form_validation->run()==FALSE)
-    {
-    $data["alerterror"]=validation_errors();
-    $data["page"]="editgenre";
-    $data["title"]="Edit genre";
-    $data["before"]=$this->genre_model->beforeedit($this->input->get("id"));
-    $this->load->view("template",$data);
-    }
-    else
-    {
-    $id=$this->input->get_post("id");
-    $name=$this->input->get_post("name");
-    if($this->genre_model->edit($id,$name)==0)
-    $data["alerterror"]="New genre could not be Updated.";
-    else
-    $data["alertsuccess"]="genre Updated Successfully.";
-    $data["redirect"]="site/viewgenre";
-    $this->load->view("redirect",$data);
-    }
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("id","ID","trim");
+        $this->form_validation->set_rules("name","Name","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="editgenre";
+            $data["title"]="Edit genre";
+            $data["before"]=$this->genre_model->beforeedit($this->input->get("id"));
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $id=$this->input->get_post("id");
+            $name=$this->input->get_post("name");
+            if($this->genre_model->edit($id,$name)==0)
+                $data["alerterror"]="New genre could not be Updated.";
+            else
+                $data["alertsuccess"]="genre Updated Successfully.";
+            $data["redirect"]="site/viewgenre";
+            $this->load->view("redirect",$data);
+        }
     }
     public function deletegenre()
     {
-    $access=array("1");
-    $this->checkaccess($access);
-    $this->genre_model->delete($this->input->get("id"));
-    $data["redirect"]="site/viewgenre";
-    $this->load->view("redirect",$data);
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->genre_model->delete($this->input->get("id"));
+        $data["redirect"]="site/viewgenre";
+        $this->load->view("redirect",$data);
     }
     public function viewmovie()
     {
@@ -1222,7 +1256,7 @@ class Site extends CI_Controller
         $this->form_validation->set_rules("casteandcrew","Casteandcrew","trim");
         $this->form_validation->set_rules("summary","Summary","trim");
         $this->form_validation->set_rules("twittertrack","Twittertrack","trim");
-        $this->form_validation->set_rules("trailer","Trailer","trim");
+//        $this->form_validation->set_rules("trailer","Trailer","trim");
         $this->form_validation->set_rules("isfeatured","Isfeatured","trim");
         $this->form_validation->set_rules("isintheator","Isintheator","trim");
         $this->form_validation->set_rules("iscommingsoon","Iscommingsoon","trim");
@@ -1247,17 +1281,30 @@ class Site extends CI_Controller
             $casteandcrew=$this->input->get_post("casteandcrew");
             $summary=$this->input->get_post("summary");
             $twittertrack=$this->input->get_post("twittertrack");
-            $trailer=$this->input->get_post("trailer");
+//            $trailer=$this->input->get_post("trailer");
             $isfeatured=$this->input->get_post("isfeatured");
             $isintheator=$this->input->get_post("isintheator");
             $iscommingsoon=$this->input->get_post("iscommingsoon");
             $genre=$this->input->get_post("genre");
+            
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'mp4|3gp|flv|mp3';
+            $this->load->library('upload', $config);
+            $filename="trailer";
+            $trailer="";
+            if (  $this->upload->do_upload($filename))
+            {
+                $uploaddata = $this->upload->data();
+                $trailer=$uploaddata['file_name'];
+            }
+        echo $trailer;
+            print_r($config);
             if($this->movie_model->create($name,$duration,$dateofrelease,$rating,$director,$writer,$casteandcrew,$summary,$twittertrack,$trailer,$isfeatured,$isintheator,$iscommingsoon,$genre)==0)
                 $data["alerterror"]="New movie could not be created.";
             else
                 $data["alertsuccess"]="movie created Successfully.";
-            $data["redirect"]="site/viewmovie";
-            $this->load->view("redirect",$data);
+//            $data["redirect"]="site/viewmovie";
+//            $this->load->view("redirect",$data);
         }
     }
     public function editmovie()
@@ -1289,7 +1336,7 @@ class Site extends CI_Controller
         $this->form_validation->set_rules("casteandcrew","Casteandcrew","trim");
         $this->form_validation->set_rules("summary","Summary","trim");
         $this->form_validation->set_rules("twittertrack","Twittertrack","trim");
-        $this->form_validation->set_rules("trailer","Trailer","trim");
+//        $this->form_validation->set_rules("trailer","Trailer","trim");
         $this->form_validation->set_rules("isfeatured","Isfeatured","trim");
         $this->form_validation->set_rules("isintheator","Isintheator","trim");
         $this->form_validation->set_rules("iscommingsoon","Iscommingsoon","trim");
@@ -1318,18 +1365,36 @@ class Site extends CI_Controller
             $casteandcrew=$this->input->get_post("casteandcrew");
             $summary=$this->input->get_post("summary");
             $twittertrack=$this->input->get_post("twittertrack");
-            $trailer=$this->input->get_post("trailer");
+//            $trailer=$this->input->get_post("trailer");
             $isfeatured=$this->input->get_post("isfeatured");
             $isintheator=$this->input->get_post("isintheator");
             $iscommingsoon=$this->input->get_post("iscommingsoon");
             $genre=$this->input->get_post("genre");
             
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'mp4|3gp|flv|mp3';
+            $this->load->library('upload', $config);
+            $filename="trailer";
+            $trailer="";
+            if (  $this->upload->do_upload($filename))
+            {
+                $uploaddata = $this->upload->data();
+                $trailer=$uploaddata['file_name'];
+            }
+            
+            if($trailer=="")
+            {
+            $trailer=$this->movie_model->gettrailerbyid($id);
+               // print_r($image);
+                $trailer=$trailer->trailer;
+            }
+            
             if($this->movie_model->edit($id,$name,$duration,$dateofrelease,$rating,$director,$writer,$casteandcrew,$summary,$twittertrack,$trailer,$isfeatured,$isintheator,$iscommingsoon,$genre)==0)
                 $data["alerterror"]="New movie could not be Updated.";
             else
                 $data["alertsuccess"]="movie Updated Successfully.";
-            $data["redirect"]="site/viewmovie";
-            $this->load->view("redirect",$data);
+//            $data["redirect"]="site/viewmovie";
+//            $this->load->view("redirect",$data);
         }
     }
     public function deletemovie()
@@ -1514,6 +1579,12 @@ class Site extends CI_Controller
         $elements[3]->header="Rating";
         $elements[3]->alias="rating";
         
+        $elements[4]=new stdClass();
+        $elements[4]->field="`movie_expert`.`name`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Expertname";
+        $elements[4]->alias="expertname";
+        
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -1529,7 +1600,7 @@ class Site extends CI_Controller
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_expertrating`","WHERE `movie_expertrating`.`movie`='$movieid'");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `movie_expertrating` LEFT OUTER JOIN `movie_expert` ON `movie_expertrating`.`expert`=`movie_expert`.`id`","WHERE `movie_expertrating`.`movie`='$movieid'");
         $this->load->view("json",$data);
     }
 

@@ -31,7 +31,7 @@ class movie_model extends CI_Model
         if(!$query)
             return  0;
         else
-            return  $id;
+            return  $movieid;
     }
     public function createmoviegenre($value,$movieid)
 	{
@@ -133,6 +133,12 @@ class movie_model extends CI_Model
 		}
 		
 		return $return;
+	}
+    
+	public function gettrailerbyid($id)
+	{
+		$query=$this->db->query("SELECT `trailer` FROM `movie_movie` WHERE `id`='$id'")->row();
+		return $query;
 	}
 }
 ?>

@@ -16,7 +16,7 @@
                         <tr>
                             <th data-field="id">ID</th>
                             <th data-field="expert">Expert</th>
-                            <th data-field="movie">Movie</th>
+<!--                            <th data-field="movie">Movie</th>-->
                             <th data-field="rating">Rating</th>
                             <th data-field="action">Action</th>
                         </tr>
@@ -29,7 +29,7 @@
         </section>
         <script>
             function drawtable(resultrow) {
-                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.expert + "</td><td>" + resultrow.movie + "</td><td>" + resultrow.rating + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editexpertrating?id=');?>" + resultrow.movie + "&expertratingid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteexpertrating?id='); ?>" + resultrow.movie + "&expertratingid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.expertname + "</td><td>" + resultrow.rating + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editexpertrating?id=');?>" + resultrow.movie + "&expertratingid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteexpertrating?id='); ?>" + resultrow.movie + "&expertratingid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
             }
             generatejquery("<?php echo $base_url;?>");
         </script>

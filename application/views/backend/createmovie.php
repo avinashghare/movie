@@ -70,7 +70,7 @@
                         <div class=" form-group">
                             <label class="col-sm-2 control-label" for="normal-field">Trailer</label>
                             <div class="col-sm-4">
-                                <input type="file" id="normal-field" class="form-control" name="trailer" value='<?php echo set_value(' trailer ');?>'>
+                                <input type="file" id="normal-field" class="form-control" name="trailer" value='<?php echo set_value('trailer');?>'>
                             </div>
                         </div>
                         <div class=" form-group">

@@ -15,8 +15,8 @@
                     <thead>
                         <tr>
                             <th data-field="id">ID</th>
-                            <th data-field="user">User</th>
-                            <th data-field="movie">Movie</th>
+<!--                            <th data-field="user">User</th>-->
+                            <th data-field="moviename">Movie</th>
                             <th data-field="status">Status</th>
                             <th data-field="action">Action</th>
                         </tr>
@@ -29,7 +29,15 @@
         </section>
         <script>
             function drawtable(resultrow) {
-                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.user + "</td><td>" + resultrow.movie + "</td><td>" + resultrow.status + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/edituserlike?id=');?>" + resultrow.user + "&userlikeid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteuserlike?id='); ?>" + resultrow.user + "&userlikeid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+                if(resultrow.status==1)
+                {
+                    resultrow.status="Enabled";
+                }
+                else
+                {
+                    resultrow.status="Disabled";
+                }
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.moviename + "</td><td>" + resultrow.status + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/edituserlike?id=');?>" + resultrow.user + "&userlikeid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteuserlike?id='); ?>" + resultrow.user + "&userlikeid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
             }
             generatejquery("<?php echo $base_url;?>");
         </script>

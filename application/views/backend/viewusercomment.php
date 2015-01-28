@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th data-field="id">ID</th>
-                            <th data-field="user">User</th>
+<!--                            <th data-field="user">User</th>-->
                             <th data-field="movie">Movie</th>
                             <th data-field="comment">Comment</th>
                             <th data-field="Action">Action</th>
@@ -29,7 +29,7 @@
         </section>
         <script>
             function drawtable(resultrow) {
-                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.user + "</td><td>" + resultrow.movie + "</td><td>" + resultrow.comment + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editusercomment?id=');?>" + resultrow.user + "&usercommentid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteusercomment?id='); ?>" + resultrow.user + "&usercommentid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
+                return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.moviename + "</td><td>" + resultrow.comment + "</td><td><a class='btn btn-primary btn-xs' href='<?php echo site_url('site/editusercomment?id=');?>" + resultrow.user + "&usercommentid="+resultrow.id+"'><i class='icon-pencil'></i></a><a class='btn btn-danger btn-xs' href='<?php echo site_url('site/deleteusercomment?id='); ?>" + resultrow.user + "&usercommentid="+resultrow.id+"'><i class='icon-trash '></i></a></td></tr>";
             }
             generatejquery("<?php echo $base_url;?>");
         </script>
