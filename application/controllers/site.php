@@ -1297,14 +1297,12 @@ class Site extends CI_Controller
                 $uploaddata = $this->upload->data();
                 $trailer=$uploaddata['file_name'];
             }
-        echo $trailer;
-            print_r($config);
             if($this->movie_model->create($name,$duration,$dateofrelease,$rating,$director,$writer,$casteandcrew,$summary,$twittertrack,$trailer,$isfeatured,$isintheator,$iscommingsoon,$genre)==0)
                 $data["alerterror"]="New movie could not be created.";
             else
                 $data["alertsuccess"]="movie created Successfully.";
-//            $data["redirect"]="site/viewmovie";
-//            $this->load->view("redirect",$data);
+            $data["redirect"]="site/viewmovie";
+            $this->load->view("redirect",$data);
         }
     }
     public function editmovie()
@@ -1393,8 +1391,8 @@ class Site extends CI_Controller
                 $data["alerterror"]="New movie could not be Updated.";
             else
                 $data["alertsuccess"]="movie Updated Successfully.";
-//            $data["redirect"]="site/viewmovie";
-//            $this->load->view("redirect",$data);
+            $data["redirect"]="site/viewmovie";
+            $this->load->view("redirect",$data);
         }
     }
     public function deletemovie()

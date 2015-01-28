@@ -60,6 +60,19 @@
                 </div>
             </div>
             <div class=" form-group">
+               <?php if($before->trailer==0)
+{
+    echo "Please Upload Trailer";
+}
+else if($before->trailer!="" )
+{
+    echo $before->trailer;
+}
+else
+{
+    echo "Please Upload Trailer";
+}
+?>
                 <label class="col-sm-2 control-label" for="normal-field">Trailer</label>
                 <div class="col-sm-4">
                     <input type="file" id="normal-field" class="form-control" name="trailer" value='<?php echo set_value(' trailer ',$before->trailer);?>'>
